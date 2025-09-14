@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentFlow - Mini Hiring Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- Navigation -->
+        <nav class="nav">
+            <div class="nav__container">
+                <div class="nav__brand">
+                    <h1>TalentFlow</h1>
+                </div>
+                <div class="nav__links">
+                    <button class="nav__link nav__link--active" data-tab="dashboard">Dashboard</button>
+                    <button class="nav__link" data-tab="jobs">Jobs</button>
+                    <button class="nav__link" data-tab="candidates">Candidates</button>
+                    <button class="nav__link" data-tab="assessments">Assessments</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Dashboard Tab -->
+            <div class="tab-content" id="dashboard-tab">
+                <div class="page-header">
+                    <div class="page-header__content">
+                        <h2>Dashboard</h2>
+                        <div class="dashboard-controls">
+                            <select class="form-control" id="dashboard-time-range">
+                                <option value="7d">Last 7 days</option>
+                                <option value="30d" selected>Last 30 days</option>
+                                <option value="3m">Last 3 months</option>
+                                <option value="custom">Custom Range</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-card__header">
+                            <h3>Total Jobs</h3>
+                            <span class="kpi-icon">💼</span>
+                        </div>
+                        <div class="kpi-card__value" id="kpi-total-jobs">25</div>
+                        <div class="kpi-card__subtitle">
+                            <span id="kpi-active-jobs">18</span> active
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-card__header">
+                            <h3>Total Candidates</h3>
+                            <span class="kpi-icon">👥</span>
+                        </div>
+                        <div class="kpi-card__value" id="kpi-total-candidates">1,247</div>
+                        <div class="kpi-card__subtitle">across all stages</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-card__header">
+                            <h3>Hired This Month</h3>
+                            <span class="kpi-icon">✅</span>
+                        </div>
+                        <div class="kpi-card__value" id="kpi-hired-month">12</div>
+                        <div class="kpi-card__subtitle status--success">+25% vs last month</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-card__header">
+                            <h3>Assessment Rate</h3>
+                            <span class="kpi-icon">📋</span>
+                        </div>
+                        <div class="kpi-card__value" id="kpi-assessment-rate">78%</div>
+                        <div class="kpi-card__subtitle">completion rate</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-card__header">
+                            <h3>Avg Time to Hire</h3>
+                            <span class="kpi-icon">⏱️</span>
+                        </div>
+                        <div class="kpi-card__value" id="kpi-time-to-hire">23</div>
+                        <div class="kpi-card__subtitle">days</div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-card__header">
+                            <h3>Conversion Rate</h3>
+                            <span class="kpi-icon">📈</span>
+                        </div>
+                        <div class="kpi-card__value" id="kpi-conversion-rate">15%</div>
+                        <div class="kpi-card__subtitle">pipeline conversion</div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="dashboard-charts">
+                    <div class="chart-section">
+                        <div class="chart-header">
+                            <h3>Applications Trend</h3>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="applications-trend-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-section">
+                        <div class="chart-header">
+                            <h3>Candidate Pipeline</h3>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="pipeline-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Section -->
+                <div class="dashboard-bottom">
+                    <!-- Job Performance -->
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h3>Top Performing Jobs</h3>
+                        </div>
+                        <div class="job-performance-list">
+                            <div class="performance-item">
+                                <div class="performance-info">
+                                    <h4>Senior React Developer</h4>
+                                    <p>89 applications • 3 hires</p>
+                                </div>
+                                <div class="performance-metrics">
+                                    <span class="conversion-rate">3.4% conversion</span>
+                                </div>
+                            </div>
+                            <div class="performance-item">
+                                <div class="performance-info">
+                                    <h4>Full Stack Engineer</h4>
+                                    <p>156 applications • 5 hires</p>
+                                </div>
+                                <div class="performance-metrics">
+                                    <span class="conversion-rate">3.2% conversion</span>
+                                </div>
+                            </div>
+                            <div class="performance-item">
+                                <div class="performance-info">
+                                    <h4>DevOps Engineer</h4>
+                                    <p>67 applications • 2 hires</p>
+                                </div>
+                                <div class="performance-metrics">
+                                    <span class="conversion-rate">3.0% conversion</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="dashboard-section">
+                        <div class="section-header">
+                            <h3>Recent Activity</h3>
+                        </div>
+                        <div class="activity-feed">
+                            <div class="activity-item">
+                                <div class="activity-icon activity-icon--application">📝</div>
+                                <div class="activity-content">
+                                    <p><strong>John Smith</strong> applied to <em>Senior React Developer</em></p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon activity-icon--stage">🔄</div>
+                                <div class="activity-content">
+                                    <p><strong>Sarah Johnson</strong> moved from screen to tech stage</p>
+                                    <span class="activity-time">4 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon activity-icon--assessment">📋</div>
+                                <div class="activity-content">
+                                    <p><strong>Mike Brown</strong> completed assessment for <em>DevOps Engineer</em></p>
+                                    <span class="activity-time">6 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jobs Tab -->
+            <div class="tab-content hidden" id="jobs-tab">
+                <div class="page-header">
+                    <div class="page-header__content">
+                        <h2>Job Listings</h2>
+                        <button class="btn btn--primary" id="create-job-btn">Create Job</button>
+                    </div>
+                    <div class="filters">
+                        <input type="text" class="form-control" id="jobs-search" placeholder="Search jobs...">
+                        <select class="form-control" id="jobs-status-filter">
+                            <option value="">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="archived">Archived</option>
+                        </select>
+                        <input type="text" class="form-control" id="jobs-tags-filter" placeholder="Filter by tags...">
+                    </div>
+                </div>
+                <div class="jobs-grid" id="jobs-grid">
+                    <!-- Jobs will be populated here -->
+                </div>
+                <div class="pagination" id="jobs-pagination">
+                    <!-- Pagination will be populated here -->
+                </div>
+            </div>
+
+            <!-- Candidates Tab -->
+            <div class="tab-content hidden" id="candidates-tab">
+                <div class="page-header">
+                    <div class="page-header__content">
+                        <h2>Candidates</h2>
+                        <button class="btn btn--primary" id="create-candidate-btn">Add Candidate</button>
+                    </div>
+                    <div class="filters">
+                        <input type="text" class="form-control" id="candidates-search" placeholder="Search candidates...">
+                        <select class="form-control" id="candidates-stage-filter">
+                            <option value="">All Stages</option>
+                            <option value="applied">Applied</option>
+                            <option value="screen">Screen</option>
+                            <option value="tech">Technical</option>
+                            <option value="offer">Offer</option>
+                            <option value="hired">Hired</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <button class="btn btn--outline" id="kanban-view-btn">Kanban View</button>
+                    </div>
+                </div>
+                
+                <!-- List View -->
+                <div class="candidates-list-view" id="candidates-list-view">
+                    <div class="virtual-list" id="candidates-virtual-list">
+                        <!-- Candidates will be populated here -->
+                    </div>
+                    <div class="pagination" id="candidates-pagination">
+                        <!-- Pagination will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Kanban View -->
+                <div class="kanban-board hidden" id="kanban-board">
+                    <div class="kanban-columns">
+                        <div class="kanban-column" data-stage="applied">
+                            <h3>Applied</h3>
+                            <div class="kanban-cards" data-stage="applied"></div>
+                        </div>
+                        <div class="kanban-column" data-stage="screen">
+                            <h3>Screen</h3>
+                            <div class="kanban-cards" data-stage="screen"></div>
+                        </div>
+                        <div class="kanban-column" data-stage="tech">
+                            <h3>Technical</h3>
+                            <div class="kanban-cards" data-stage="tech"></div>
+                        </div>
+                        <div class="kanban-column" data-stage="offer">
+                            <h3>Offer</h3>
+                            <div class="kanban-cards" data-stage="offer"></div>
+                        </div>
+                        <div class="kanban-column" data-stage="hired">
+                            <h3>Hired</h3>
+                            <div class="kanban-cards" data-stage="hired"></div>
+                        </div>
+                        <div class="kanban-column" data-stage="rejected">
+                            <h3>Rejected</h3>
+                            <div class="kanban-cards" data-stage="rejected"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assessments Tab -->
+            <div class="tab-content hidden" id="assessments-tab">
+                <div class="page-header">
+                    <h2>Assessment Builder</h2>
+                    <div class="assessment-job-selector">
+                        <select class="form-control" id="assessment-job-select">
+                            <option value="">Select a job...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="assessment-builder" id="assessment-builder">
+                    <div class="builder-panel">
+                        <div class="builder-header">
+                            <h3>Builder</h3>
+                            <button class="btn btn--primary" id="add-section-btn">Add Section</button>
+                        </div>
+                        <div class="sections-container" id="sections-container">
+                            <!-- Sections will be populated here -->
+                        </div>
+                    </div>
+                    <div class="preview-panel">
+                        <div class="preview-header">
+                            <h3>Preview</h3>
+                            <button class="btn btn--outline" id="take-assessment-btn">Take Assessment</button>
+                        </div>
+                        <div class="preview-content" id="preview-content">
+                            <p class="text-gray-500">Select a job to start building an assessment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Job Modal -->
+        <div class="modal hidden" id="job-modal">
+            <div class="modal__backdrop"></div>
+            <div class="modal__content">
+                <div class="modal__header">
+                    <h3 id="job-modal-title">Create Job</h3>
+                    <button class="modal__close" id="job-modal-close">&times;</button>
+                </div>
+                <div class="modal__body">
+                    <form id="job-form">
+                        <div class="form-group">
+                            <label class="form-label" for="job-title">Job Title *</label>
+                            <input type="text" class="form-control" id="job-title" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="job-slug">Slug</label>
+                            <input type="text" class="form-control" id="job-slug">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="job-status">Status</label>
+                            <select class="form-control" id="job-status">
+                                <option value="active">Active</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="job-tags">Tags (comma separated)</label>
+                            <input type="text" class="form-control" id="job-tags" placeholder="React, JavaScript, Frontend">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn btn--outline" id="job-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn--primary" id="job-save-btn">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Candidate Modal -->
+        <div class="modal hidden" id="candidate-modal">
+            <div class="modal__backdrop"></div>
+            <div class="modal__content">
+                <div class="modal__header">
+                    <h3 id="candidate-modal-title">Add Candidate</h3>
+                    <button class="modal__close" id="candidate-modal-close">&times;</button>
+                </div>
+                <div class="modal__body">
+                    <form id="candidate-form">
+                        <div class="form-group">
+                            <label class="form-label" for="candidate-name">Name *</label>
+                            <input type="text" class="form-control" id="candidate-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="candidate-email">Email *</label>
+                            <input type="email" class="form-control" id="candidate-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="candidate-job">Job</label>
+                            <select class="form-control" id="candidate-job">
+                                <!-- Jobs will be populated here -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="candidate-stage">Stage</label>
+                            <select class="form-control" id="candidate-stage">
+                                <option value="applied">Applied</option>
+                                <option value="screen">Screen</option>
+                                <option value="tech">Technical</option>
+                                <option value="offer">Offer</option>
+                                <option value="hired">Hired</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn btn--outline" id="candidate-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn--primary" id="candidate-save-btn">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Candidate Profile Modal -->
+        <div class="modal hidden" id="candidate-profile-modal">
+            <div class="modal__backdrop"></div>
+            <div class="modal__content modal__content--large">
+                <div class="modal__header">
+                    <h3 id="candidate-profile-name">Candidate Profile</h3>
+                    <button class="modal__close" id="candidate-profile-close">&times;</button>
+                </div>
+                <div class="modal__body">
+                    <div class="candidate-profile">
+                        <div class="candidate-info">
+                            <p><strong>Email:</strong> <span id="candidate-profile-email"></span></p>
+                            <p><strong>Stage:</strong> <span id="candidate-profile-stage" class="status"></span></p>
+                            <p><strong>Job:</strong> <span id="candidate-profile-job"></span></p>
+                        </div>
+                        <div class="candidate-timeline">
+                            <h4>Timeline</h4>
+                            <div class="timeline" id="candidate-timeline">
+                                <!-- Timeline will be populated here -->
+                            </div>
+                        </div>
+                        <div class="candidate-notes">
+                            <h4>Notes</h4>
+                            <textarea class="form-control" id="candidate-notes-input" placeholder="Add notes about this candidate... Use @name to mention someone"></textarea>
+                            <button class="btn btn--primary mt-8" id="add-note-btn">Add Note</button>
+                            <div class="notes-list" id="notes-list">
+                                <!-- Notes will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessment Form Modal -->
+        <div class="modal hidden" id="assessment-form-modal">
+            <div class="modal__backdrop"></div>
+            <div class="modal__content modal__content--large">
+                <div class="modal__header">
+                    <h3 id="assessment-form-title">Assessment Form</h3>
+                    <button class="modal__close" id="assessment-form-close">&times;</button>
+                </div>
+                <div class="modal__body">
+                    <form id="assessment-form-content">
+                        <!-- Form will be populated here -->
+                    </form>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="btn btn--outline" id="assessment-form-cancel">Cancel</button>
+                    <button type="submit" class="btn btn--primary" id="assessment-form-submit">Submit Assessment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
