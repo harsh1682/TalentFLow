@@ -220,6 +220,7 @@ export default function Jobs() {
         {...attributes}
         // Only start drag when using the drag handle to prevent action clicks from dragging
         className={`job-card ${isDragging ? 'job-card--dragging' : ''}`}
+        {...listeners}
       >
         <div className="job-card__header">
           <h3 className="job-card__title">{job.title}</h3>
@@ -237,7 +238,7 @@ export default function Jobs() {
         <div className="job-card__status">
           <span className={`status ${job.status === 'active' ? 'status--success' : 'status--info'}`}>{job.status}</span>
         </div>
-        <div className="job-card__drag-handle" {...listeners}>
+        <div className="job-card__drag-handle" >
           <span>⋮⋮</span>
         </div>
       </div>
